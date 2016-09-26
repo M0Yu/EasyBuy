@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lyz.easybuy.dao.AddressDao">
+	<resultMap id="BaseResultMap" type="com.lyz.easybuy.entity.Address">
+		<id column="Adrrid" property="adrrid" jdbcType="INTEGER" />
+		<result column="Province" property="province" jdbcType="VARCHAR" />
+		<result column="City" property="city" jdbcType="VARCHAR" />
+		<result column="Area" property="area" jdbcType="VARCHAR" />
+		<result column="Street" property="street" jdbcType="VARCHAR" />
+		<result column="receiveUser" property="receiveuser" jdbcType="VARCHAR" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+		<result column="Usrid" property="usrid" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		Adrrid, Province, City, Area, Street, receiveUser, phone,
+		Usrid
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from eb_address
+		where Adrrid = #{adrrid,jdbcType=INTEGER}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		eb_address
+		where Adrrid = #{adrrid,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.lyz.easybuy.entity.Address">
+		insert into eb_address
+		(Adrrid, Province, City,
+		Area, Street, receiveUser,
+		phone, Usrid)
+		values
+		(#{adrrid,jdbcType=INTEGER}, #{province,jdbcType=VARCHAR},
+		#{city,jdbcType=VARCHAR},
+		#{area,jdbcType=VARCHAR},
+		#{street,jdbcType=VARCHAR}, #{receiveuser,jdbcType=VARCHAR},
+		#{phone,jdbcType=VARCHAR}, #{usrid,jdbcType=INTEGER})
+	</insert>
+	<insert id="insertSelective" parameterType="com.lyz.easybuy.entity.Address">
+		insert into eb_address
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="adrrid != null">
+				Adrrid,
+			</if>
+			<if test="province != null">
+				Province,
+			</if>
+			<if test="city != null">
+				City,
+			</if>
+			<if test="area != null">
+				Area,
+			</if>
+			<if test="street != null">
+				Street,
+			</if>
+			<if test="receiveuser != null">
+				receiveUser,
+			</if>
+			<if test="phone != null">
+				phone,
+			</if>
+			<if test="usrid != null">
+				Usrid,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="adrrid != null">
+				#{adrrid,jdbcType=INTEGER},
+			</if>
+			<if test="province != null">
+				#{province,jdbcType=VARCHAR},
+			</if>
+			<if test="city != null">
+				#{city,jdbcType=VARCHAR},
+			</if>
+			<if test="area != null">
+				#{area,jdbcType=VARCHAR},
+			</if>
+			<if test="street != null">
+				#{street,jdbcType=VARCHAR},
+			</if>
+			<if test="receiveuser != null">
+				#{receiveuser,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				#{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="usrid != null">
+				#{usrid,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.lyz.easybuy.entity.Address">
+		update eb_address
+		<set>
+			<if test="province != null">
+				Province = #{province,jdbcType=VARCHAR},
+			</if>
+			<if test="city != null">
+				City = #{city,jdbcType=VARCHAR},
+			</if>
+			<if test="area != null">
+				Area = #{area,jdbcType=VARCHAR},
+			</if>
+			<if test="street != null">
+				Street = #{street,jdbcType=VARCHAR},
+			</if>
+			<if test="receiveuser != null">
+				receiveUser = #{receiveuser,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				phone = #{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="usrid != null">
+				Usrid = #{usrid,jdbcType=INTEGER},
+			</if>
+		</set>
+		where Adrrid = #{adrrid,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.lyz.easybuy.entity.Address">
+		update eb_address
+		set Province = #{province,jdbcType=VARCHAR},
+		City =
+		#{city,jdbcType=VARCHAR},
+		Area = #{area,jdbcType=VARCHAR},
+		Street =
+		#{street,jdbcType=VARCHAR},
+		receiveUser =
+		#{receiveuser,jdbcType=VARCHAR},
+		phone = #{phone,jdbcType=VARCHAR},
+		Usrid = #{usrid,jdbcType=INTEGER}
+		where Adrrid =
+		#{adrrid,jdbcType=INTEGER}
+	</update>
+
+	<select id="queryByUsrid" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		SELECt *
+		FROM eb_address
+		WHERE Usrid = #{usrid}
+	</select>
+
+	<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM eb_address
+		WHERE Adrrid = #{adrrid}
+	</select>
+</mapper>

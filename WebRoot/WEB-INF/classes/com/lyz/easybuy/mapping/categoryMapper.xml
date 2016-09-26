@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lyz.easybuy.dao.CategoryDao">
+	<resultMap id="BaseResultMap" type="com.lyz.easybuy.entity.Category">
+		<id column="cid" property="cid" jdbcType="INTEGER" />
+		<result column="Cname" property="cname" jdbcType="VARCHAR" />
+		<result column="Summary" property="summary" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		cid, Cname, Summary
+	</sql>
+
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<trim suffixOverrides=",">
+			<if test="cid != null and cid != ''">
+				and cid = #{cid}
+			</if>
+			<if test="cname != null and cname != ''">
+				and Cname = #{cname}
+			</if>
+			<if test="summary != null and summary != ''">
+				and Summary = #{summary}
+			</if>
+		</trim>
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from eb_category
+		where cid = #{cid,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		eb_category
+		where cid = #{cid,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.lyz.easybuy.entity.Category">
+		insert into eb_category (cid,
+		Cname, Summary
+		)
+		values (#{cid,jdbcType=INTEGER},
+		#{cname,jdbcType=VARCHAR},
+		#{summary,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.lyz.easybuy.entity.Category">
+		insert into eb_category
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="cid != null">
+				cid,
+			</if>
+			<if test="cname != null">
+				Cname,
+			</if>
+			<if test="summary != null">
+				Summary,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="cid != null">
+				#{cid,jdbcType=INTEGER},
+			</if>
+			<if test="cname != null">
+				#{cname,jdbcType=VARCHAR},
+			</if>
+			<if test="summary != null">
+				#{summary,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.lyz.easybuy.entity.Category">
+		update eb_category
+		<set>
+			<if test="cname != null">
+				Cname = #{cname,jdbcType=VARCHAR},
+			</if>
+			<if test="summary != null">
+				Summary = #{summary,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where cid = #{cid,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.lyz.easybuy.entity.Category">
+		update eb_category
+		set Cname = #{cname,jdbcType=VARCHAR},
+		Summary =
+		#{summary,jdbcType=VARCHAR}
+		where cid = #{cid,jdbcType=INTEGER}
+	</update>
+
+	<select id="queryByCategory" parameterType="Object" resultMap="BaseResultMap">
+		SELECT *
+		FROM eb_category
+		<include refid="Example_Where_Clause" />
+	</select>
+
+	<select id="queryAll" resultMap="BaseResultMap">
+		SELECT *
+		FROM eb_category
+	</select>
+	
+	<select id="queryByList" resultType="com.lyz.easybuy.entity.page.CategoryPage"
+		parameterType="Object">
+		SELECT *
+		FROM eb_category
+		<include refid="Example_Where_Clause" />
+		<if test="pager.orderCondition != null and pager.orderCondition != ''">
+			${pager.orderCondition}
+		</if>
+		<if
+			test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''">
+			${pager.mysqlQueryCondition}
+		</if>
+	</select>
+
+	<select id="queryByCount" resultType="java.lang.Integer"
+		parameterType="Object">
+		SELECT count(1)
+		FROM eb_category
+		<include refid="Example_Where_Clause" />
+	</select>
+
+	<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM eb_category
+		WHERE cid=#{cid}
+	</select>
+</mapper>

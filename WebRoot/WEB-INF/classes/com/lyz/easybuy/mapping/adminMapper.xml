@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lyz.easybuy.dao.AdminDao">
+	<resultMap id="BaseResultMap" type="com.lyz.easybuy.entity.Admin">
+		<id column="Aid" property="aid" jdbcType="INTEGER" />
+		<result column="userName" property="username" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="Phone" property="phone" jdbcType="VARCHAR" />
+		<result column="Power" property="power" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		Aid, userName, password, Phone, Power
+	</sql>
+	
+	<!-- 查询条件 -->
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<trim suffixOverrides=",">
+			<if test="username != null">
+				userName = #{username,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				password = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				Phone = #{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="power != null">
+				Power = #{power,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</sql>
+	
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		eb_admin
+		where Aid = #{aid,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.lyz.easybuy.entity.Admin">
+		insert into eb_admin (Aid,
+		userName, password,
+		Phone, Power)
+		values (#{aid,jdbcType=INTEGER},
+		#{username,jdbcType=VARCHAR},
+		#{password,jdbcType=VARCHAR},
+		#{phone,jdbcType=VARCHAR}, #{power,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.lyz.easybuy.entity.Admin">
+		insert into eb_admin
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="aid != null">
+				Aid,
+			</if>
+			<if test="username != null">
+				userName,
+			</if>
+			<if test="password != null">
+				password,
+			</if>
+			<if test="phone != null">
+				Phone,
+			</if>
+			<if test="power != null">
+				Power,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="aid != null">
+				#{aid,jdbcType=INTEGER},
+			</if>
+			<if test="username != null">
+				#{username,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				#{password,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				#{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="power != null">
+				#{power,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.lyz.easybuy.entity.Admin">
+		update eb_admin
+		<set>
+			<if test="username != null">
+				userName = #{username,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				password = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				Phone = #{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="power != null">
+				Power = #{power,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where Aid = #{aid,jdbcType=INTEGER}
+	</update>
+
+	<update id="updateByPrimaryKey" parameterType="com.lyz.easybuy.entity.Admin">
+		update eb_admin
+		set userName = #{username,jdbcType=VARCHAR},
+		password =
+		#{password,jdbcType=VARCHAR},
+		Phone = #{phone,jdbcType=VARCHAR},
+		Power =
+		#{power,jdbcType=VARCHAR}
+		where Aid = #{aid,jdbcType=INTEGER}
+	</update>
+
+	<select id="queryByUsername" parameterType="Object" resultMap="BaseResultMap">
+		SELECT *
+		FROM eb_admin
+		WHERE userName = #{username}
+	</select>
+	
+	<select id="queryByList" resultType="com.lyz.easybuy.entity.page.AdminPage"
+		parameterType="Object">
+		SELECT *
+		FROM eb_admin
+		<include refid="Example_Where_Clause" />
+		<if test="pager.orderCondition != null and pager.orderCondition != ''">
+			${pager.orderCondition}
+		</if>
+		<if
+			test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''">
+			${pager.mysqlQueryCondition}
+		</if>
+	</select>
+
+	<select id="queryByCount" resultType="java.lang.Integer"
+		parameterType="Object">
+		SELECT count(1)
+		FROM eb_admin
+		<include refid="Example_Where_Clause" />
+	</select>
+
+	<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM eb_admin
+		WHERE Aid=#{aid}
+	</select>
+
+</mapper>
